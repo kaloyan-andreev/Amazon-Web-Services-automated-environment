@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Profile</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="profile.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
+.myLink {display: none}
+</style>
+</head>
+<body class="light-grey">
+
+<div id="collapsable-sidebar" class="w3-sidebar">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"><i class="fa fa-times"></i></a>
+  <a href="index.html">Home</a>
+  <a href="#">Profile</a>
+  <a href="#">Log Out</a>
+</div>
+
+<div id="main" style="padding-top: 80px">
+  <!-- Support Window -->
+  <div id="support-window">
+    <div id="support-chat" class="support-chat-content">
+      <div id="s-output"></div>
+      <div id="u-input">
+        <input class="chat-input" type="text" placeholder="What is your question?">
+        <a href="#" class="send-icon" onclick=""><i class="fa fa-paper-plane"></i></a>
+      </div>
+    </div>
+    <button onclick="openChat()" id="sup-but" class="w3-red my-button" title="Ask for help!">Need help?</button>
+  </div>
+  <!-- Navigation Bar -->
+  <div class="w3-top">
+    <div class="h-bar color-white border-bot xlarge">
+    <a href="#" class="h-bar-item my-button hover-red text-grey" onclick="openNav()"><i class="fa fa-bars" style="padding-top: 10px"></i></a>
+    <a href="index.html" class="h-bar-item my-button float-right text-red"><img src="pics/logo.png" alt="logo" width="100" style="padding-top: 10px"></a>
+  </div>
+  </div>
+
+
+<div class="w3-content w3-margin-top" style="max-width:1400px;">
+
+  <!-- The Grid -->
+  <div class="w3-row-padding">
+
+    <!-- Left Column -->
+    <div class="w3-third">
+
+      <div class="w3-white w3-text-grey w3-card-4">
+<!--        <div class="w3-display-container">-->
+<!--          <img src="/w3images/avatar_hat.jpg" style="width:100%" alt="Avatar">-->
+<!--          <div class="w3-display-bottomleft w3-container w3-text-black">-->
+<!--            <h2>Jane Doe</h2>-->
+<!--          </div>-->
+<!--        </div>-->
+        <div class="w3-container">
+          <p><i class="fa fa-user fa-fw w3-margin-right w3-large w3-text-teal"></i>Name</p>
+          <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>Email</p>
+          <p><i class="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal"></i>Phone</p>
+          <div id="Flight" class="w3-container w3-white">
+            <div class="w3-row-padding" style="margin:0 -16px;">
+              <div class="w3-half">
+                <p><button class="my-button w3-red" style="width: 100%">Log Out</button></p>
+              </div>
+              <div class="w3-half">
+                <p><button class="my-button w3-red" style="width: 100%">Edit Account</button></p>
+              </div>
+            </div>
+          </div>
+
+<!--          <p><i class="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal"></i>1224435534</p>-->
+          <hr>
+
+          <p class="w3-large"><b><i class="fa fa-lock fa-fw w3-margin-right w3-text-teal"></i>Security</b></p>
+          <input class="w3-input w3-border" type="text" placeholder="Current Password" style="margin-top: 20px; margin-bottom: 20px;">
+          <input class="w3-input w3-border" type="text" placeholder="New Password" style="margin-top: 20px; margin-bottom: 20px;">
+          <input class="w3-input w3-border" type="text" placeholder="Repeat New Password" style="margin-top: 20px; margin-bottom: 20px;">
+          <button class="my-button w3-red" style="width: 100%">Change Password</button>
+          <hr>
+
+          <p class="w3-large w3-text-theme"><b><i class="fa fa-shield fa-fw w3-margin-right w3-text-teal"></i>Privacy</b></p>
+          Funky ass settings that make u think u choose what happens with ur data
+<!--          <p>English</p>-->
+<!--          <div class="w3-light-grey w3-round-xlarge">-->
+<!--            <div class="w3-round-xlarge w3-teal" style="height:24px;width:100%"></div>-->
+<!--          </div>-->
+<!--          <p>Spanish</p>-->
+<!--          <div class="w3-light-grey w3-round-xlarge">-->
+<!--            <div class="w3-round-xlarge w3-teal" style="height:24px;width:55%"></div>-->
+<!--          </div>-->
+<!--          <p>German</p>-->
+<!--          <div class="w3-light-grey w3-round-xlarge">-->
+<!--            <div class="w3-round-xlarge w3-teal" style="height:24px;width:25%"></div>-->
+<!--          </div>-->
+          <br>
+        </div>
+      </div><br>
+
+    <!-- End Left Column -->
+    </div>
+
+    <!-- Right Column -->
+    <div class="w3-twothird">
+
+      <div class="w3-container w3-card w3-white w3-margin-bottom">
+        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-clock-o fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Upcoming Flights</h2>
+        <div class="w3-container">
+          <h5 class="w3-opacity"><b>Paris (CDG) <i class="fa fa-long-arrow-right fa-fw"></i> London (LHR)</b></h5>
+          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i><span class="w3-tag w3-teal w3-round">Today</span> - 12:45</h6>
+          <p>Lorem ipsum dolor sit amet. Praesentium magnam consectetur vel in deserunt aspernatur est reprehenderit sunt hic. Nulla tempora soluta ea et odio, unde doloremque repellendus iure, iste.</p>
+          <hr>
+        </div>
+        <div class="w3-container">
+          <h5 class="w3-opacity"><b>Buenos Aires (BAI) <i class="fa fa-long-arrow-right fa-fw"></i> Amsterdam (AMS)</b></h5>
+          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>23 Dec 2022 - 09:30</h6>
+          <p>Consectetur adipisicing elit. Praesentium magnam consectetur vel in deserunt aspernatur est reprehenderit sunt hic. Nulla tempora soluta ea et odio, unde doloremque repellendus iure, iste.</p>
+          <hr>
+        </div>
+        <div class="w3-container">
+          <h5 class="w3-opacity"><b>Los Angeles (LAX) <i class="fa fa-long-arrow-right fa-fw"></i> Tokyo (NRT)</b></h5>
+          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>15 Jan 2023 - 15:10</h6>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. </p><br>
+        </div>
+      </div>
+
+      <div class="w3-container w3-card w3-white">
+        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-calendar-check-o fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Previous Flights</h2>
+        <div class="w3-container">
+          <h5 class="w3-opacity"><b>Rome (FCO) <i class="fa fa-long-arrow-right fa-fw"></i> New York (JFK)</b></h5>
+          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>15 Mar 2019 - 03:50</h6>
+          <p>Web Development! All I need to know in one place</p>
+          <hr>
+        </div>
+        <div class="w3-container">
+          <h5 class="w3-opacity"><b>Hong Kong (HKG) <i class="fa fa-long-arrow-right fa-fw"></i> Sydney (SYD)</b></h5>
+          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>1 Jul 2018 - 20:45</h6>
+          <p>Master Degree</p>
+          <hr>
+        </div>
+        <div class="w3-container">
+          <h5 class="w3-opacity"><b>Berlin (BML) <i class="fa fa-long-arrow-right fa-fw"></i> Warsaw (WAW)</b></h5>
+          <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>1 Sep 1939 - 08:00</h6>
+          <p>Bachelor Degree</p><br>
+        </div>
+      </div>
+
+    <!-- End Right Column -->
+    </div>
+
+  <!-- End Grid -->
+  </div>
+
+  <!-- End Page Container -->
+</div>
+
+  <footer class="my-container content-center less-opacity margin-bottom">
+    <h5>Find Us On</h5>
+    <div class="xlarge padding-16">
+      <i class="fa fa-facebook-official hover-opacity"></i>
+      <i class="fa fa-instagram hover-opacity"></i>
+      <i class="fa fa-snapchat hover-opacity"></i>
+      <i class="fa fa-pinterest-p hover-opacity"></i>
+      <i class="fa fa-twitter hover-opacity"></i>
+      <i class="fa fa-linkedin hover-opacity"></i>
+    </div>
+  <!--  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank" class="w3-hover-text-green">w3.css</a></p>-->
+  </footer>
+
+</div>
+
+<script>
+// Tabs
+// function openLink(evt, linkName) {
+//   var i, x, tablinks;
+//   x = document.getElementsByClassName("myLink");
+//   for (i = 0; i < x.length; i++) {
+//     x[i].style.display = "none";
+//   }
+//   tablinks = document.getElementsByClassName("tablink");
+//   for (i = 0; i < x.length; i++) {
+//     tablinks[i].className = tablinks[i].className.replace(" w3-red", "");
+//   }
+//   document.getElementById(linkName).style.display = "block";
+//   evt.currentTarget.className += " w3-red";
+// }
+//
+// // Click on the first tablink on load
+// document.getElementsByClassName("tablink")[0].click();
+
+function openNav() {
+  document.getElementById("collapsable-sidebar").style.width = "250px";
+  document.getElementById("main").style.marginLeft = "250px";
+}
+
+function closeNav() {
+  document.getElementById("collapsable-sidebar").style.width = "0";
+  document.getElementById("main").style.marginLeft = "0";
+}
+
+function openChat() {
+  document.getElementById("support-chat").classList.toggle("show");
+}
+
+function closeChat() {
+  var dropdowns = document.getElementsByClassName("support-chat-content");
+  var i;
+  for (i = 0; i < dropdowns.length; i++) {
+    var openDropdowns = dropdowns[i];
+    if (openDropdowns.classList.contains('show')) {
+      openDropdowns.classList.remove('show');
+    }
+  }
+}
+</script>
+
+</body>
+</html>
