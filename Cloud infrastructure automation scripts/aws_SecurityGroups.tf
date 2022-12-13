@@ -1,6 +1,6 @@
-// Create security group for the public subnet
-resource "aws_security_group" "public-subnet-security-group" {
-    vpc_id = "${aws_vpc.web-vpc.id}"
+// Create security group for the RDS
+resource "aws_security_group" "rds-security-group" {
+    vpc_id = "${aws_vpc.onlyflights-vpc.id}"
     
     egress {
         from_port = 0
@@ -9,33 +9,64 @@ resource "aws_security_group" "public-subnet-security-group" {
         cidr_blocks = ["0.0.0.0/0"]
     }
 
-    // Inbound rule for SSH conection from Tech Subnet
+    // Inbound rule for SSH conection
     ingress {
         from_port = 22
         to_port = 22
         protocol = "tcp"
-        cidr_blocks = ["10.2.4.10/32"]
-        description = "SSH connection from Admin EC2"
+        cidr_blocks = ["0.0.0.0/0"]
+        description = "SSH connection"
     }
+
+    // Inbound rule for MYSQL/Aurora connection
+    ingress {
+        from_port = 3306
+        to_port = 3306
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+        description = "Connection with MySQL"
+    }
+
+    tags = {
+        Name = "RDS Security Group"
+    }
+}
+
+resource "aws_security_group" "gitlab-security-group" {
+    vpc_id = "${aws_vpc.onlyflights-vpc.id}"
     
-    // Inbound rule for HTTP connection from the end users
+    egress {
+        from_port = 0
+        to_port = 0
+        protocol = -1
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+
+    // Inbound rule for SSH conection
+    ingress {
+        from_port = 22
+        to_port = 22
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+        description = "SSH connection"
+    }
+
+    // Inbound rule for HTTP access
     ingress {
         from_port = 80
         to_port = 80
         protocol = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
-        description = "Open port 80 for flask app"
+        description = "HTTP access"
     }
 
     tags = {
-        Name = "Public Subnet Security Group"
+        Name = "GitLab-Runner Security Group"
     }
 }
 
-
-// Create security group for Tech Subnet
-resource "aws_security_group" "tech-subnet-security-group" {
-    vpc_id = "${aws_vpc.services-vpc.id}"
+resource "aws_security_group" "admin-security-group" {
+    vpc_id = "${aws_vpc.onlyflights-vpc.id}"
     
     egress {
         from_port = 0
@@ -44,112 +75,91 @@ resource "aws_security_group" "tech-subnet-security-group" {
         cidr_blocks = ["0.0.0.0/0"]
     }
 
-    // Inbound rule for SSH conection from admin's local network
+    // Inbound rule for SSH conection
     ingress {
         from_port = 22
         to_port = 22
         protocol = "tcp"
-        cidr_blocks = ["92.109.129.239/32"]
-        description = "SSH connection from Admin local network"
-    }
-
-    tags = {
-        Name = "Tech Subnet Security Group"
-    }
-}
-
-
-// Create security group for Private subnet
-resource "aws_security_group" "private-subnet-security-group" {
-    vpc_id = "${aws_vpc.services-vpc.id}"
-    
-    egress {
-        from_port = 0
-        to_port = 0
-        protocol = -1
         cidr_blocks = ["0.0.0.0/0"]
+        description = "SSH connection"
     }
 
-    // Inbound rule for SSH conection from Tech subnet
-    ingress {
-        from_port = 22
-        to_port = 22
-        protocol = "tcp"
-        cidr_blocks = ["10.2.4.0/24"]
-        description = "SSH connection from Tech Subnet"
-    }
-
-    // Inbound rule to open MySQL/Aurora port
-        ingress {
-        from_port = 3306
-        to_port = 3306
-        protocol = "tcp"
-        cidr_blocks = ["0.0.0.0/0"]
-        description = "Open port 3306 for connection with MySQL Workbench"
-    }
-
-    tags = {
-        Name = "Private Subnet Security Group"
-    }
-}
-
-
-// Create security group for Utility subnet
-resource "aws_security_group" "utility-subnet-security-group" {
-    vpc_id = "${aws_vpc.services-vpc.id}"
-    
-    egress {
-        from_port = 0
-        to_port = 0
-        protocol = -1
-        cidr_blocks = ["0.0.0.0/0"]
-    }
-
-    // Inbound rule for SSH conection from admin's instance
-    ingress {
-        from_port = 22
-        to_port = 22
-        protocol = "tcp"
-        cidr_blocks = ["10.2.4.0/32"]
-        description = "SSH connection from Tech Subnet"
-    }
-
-    tags = {
-        Name = "Utility Subnet Security Group"
-    }
-}
-
-
-// Create security group for the RDS
-resource "aws_security_group" "rds-security-group" {
-    vpc_id = "${aws_vpc.services-vpc.id}"
-    
-    egress {
-        from_port = 0
-        to_port = 0
-        protocol = -1
-        cidr_blocks = ["0.0.0.0/0"]
-    }
-
-    // Inbound rule for SSH conection from Tech Subnet
-    ingress {
-        from_port = 22
-        to_port = 22
-        protocol = "tcp"
-        cidr_blocks = ["10.2.4.0/24"]
-        description = "SSH connection from Tech Subnet"
-    }
-
-    // Inbound rule for MYSQL/Aurora connection from the end users
+    // Inbound rule for MYSQL/Aurora connection
     ingress {
         from_port = 3306
         to_port = 3306
         protocol = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
-        description = "Open port 3306 for connection with MySQL Workbench"
+        description = "Connection to MySQL"
     }
 
     tags = {
-        Name = "RDS Security Group"
+        Name = "Admin's instance Security Group"
+    }
+}
+
+resource "aws_security_group" "openvpn-security-group" {
+    vpc_id = "${aws_vpc.onlyflights-vpc.id}"
+    
+    egress {
+        from_port = 0
+        to_port = 0
+        protocol = -1
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+
+    // Inbound rule for SSH conection
+    ingress {
+        from_port = 22
+        to_port = 22
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+        description = "SSH connection"
+    }
+
+    // Inbound rule for MYSQL/Aurora connection
+    ingress {
+        from_port = 3306
+        to_port = 3306
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+        description = "Connection to MySQL"
+    }
+
+    tags = {
+        Name = "OpenVPN Security Group"
+    }
+}
+
+resource "aws_security_group" "elb-security-group" {
+    vpc_id = "${aws_vpc.onlyflights-vpc.id}"
+    
+    egress {
+        from_port = 0
+        to_port = 0
+        protocol = -1
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+
+    // Inbound rule for SSH conection
+    ingress {
+        from_port = 80
+        to_port = 80
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+        description = "HTTP"
+    }
+
+    // Inbound rule for MYSQL/Aurora connection
+    ingress {
+        from_port = 443
+        to_port = 443
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+        description = "HTTPS"
+    }
+
+    tags = {
+        Name = "Application LoadBalancer Security Group"
     }
 }

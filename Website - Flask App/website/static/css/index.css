@@ -1526,7 +1526,7 @@ w3-sidebar a:hover {
 
 .w3-teal,.w3-hover-teal:hover{
     color:#fff!important;
-    background-color:#009688!important
+    background-color:#14abe2!important
 }
 
 .w3-yellow,.w3-hover-yellow:hover{
@@ -1655,7 +1655,7 @@ w3-sidebar a:hover {
 }
 
 .w3-text-teal,.w3-hover-text-teal:hover{
-    color:#009688!important
+    color:#14abe2!important
 }
 
 .w3-text-yellow,.w3-hover-text-yellow:hover{
@@ -1759,7 +1759,7 @@ w3-sidebar a:hover {
 }
 
 .w3-border-teal,.w3-hover-border-teal:hover{
-    border-color:#009688!important
+    border-color:#14abe2!important
 }
 
 .w3-border-yellow,.w3-hover-border-yellow:hover{
@@ -1875,4 +1875,43 @@ w3-sidebar a:hover {
 #s-output{
     height: 200px;
     background-color: red;
+}
+
+.autocomplete {
+  /*the container must be positioned relative:*/
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.autocomplete-items {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  /*position the autocomplete items to be the same width as the container:*/
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 200px;
+  overflow-y: scroll;
+}
+
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff;
+  border-bottom: 1px solid #d4d4d4;
+}
+
+.autocomplete-items div:hover {
+  /*when hovering an item:*/
+  background-color: #e9e9e9;
+}
+
+.autocomplete-active {
+  /*when navigating through the items using the arrow keys:*/
+  background-color: DodgerBlue !important;
+  color: #ffffff;
 }

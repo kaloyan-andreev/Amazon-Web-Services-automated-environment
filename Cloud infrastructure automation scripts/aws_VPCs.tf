@@ -1,19 +1,10 @@
-// Build Web VPC 
-resource "aws_vpc" "web-vpc" {
-  cidr_block = "10.1.0.0/16"
+resource "aws_vpc" "onlyflights-vpc" {
+  cidr_block = "10.11.0.0/16"
   instance_tenancy = "default"
-
+  enable_dns_support   = true
+  enable_dns_hostnames = true
+  
   tags = {
-    Name = "Web VPC"
-  }
-}
-
-// Build Services VPC
-resource "aws_vpc" "services-vpc" {
-  cidr_block = "10.2.0.0/16"
-  instance_tenancy = "default"
-
-  tags = {
-    Name = "Services VPC"
+    Name = "OnlyFlights VPC"
   }
 }

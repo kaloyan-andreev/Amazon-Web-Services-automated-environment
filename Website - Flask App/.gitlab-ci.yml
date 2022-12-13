@@ -1,0 +1,67 @@
+variables:
+  REPOSITORY_URL: 153658864904.dkr.ecr.eu-central-1.amazonaws.com/onlyflights
+  TASK_DEFINITION_NAME: onlyflights-dockerize-website
+  CLUSTER_NAME: OnlyFlights-Cluster
+  SERVICE_NAME: OnlyFlights-Service
+
+
+before_script:
+    - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+    - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+    - aws configure set region $AWS_DEFAULT_REGION
+    - IMAGE_TAG="$(echo $CI_COMMIT_SHA | head -c 8)"
+
+
+stages:
+  - unit_test
+  - flake8_test
+  - build
+  - deploy
+
+
+unit-test-job:
+  stage: unit_test
+  tags:
+    - aws
+  script:
+    - pip install -r requirements.txt
+    - python3 unit_tests.py
+
+
+flake-test-job:
+  stage: flake8_test
+  tags:
+    - aws
+  script:
+    - python3 -m flake8 --ignore=E501
+
+
+build:
+  stage: build
+  tags:
+    - aws
+  script:
+    - aws ecr get-login-password --region "${AWS_DEFAULT_REGION}" | docker login --username AWS --password-stdin 153658864904.dkr.ecr.eu-central-1.amazonaws.com
+    - echo "Building image..."
+    - docker build -t $REPOSITORY_URL:latest .
+    - echo "Tagging image..."
+    - docker tag $REPOSITORY_URL:latest $REPOSITORY_URL:$IMAGE_TAG
+    - echo "Pushing image..."
+    - docker push $REPOSITORY_URL:latest
+    - docker push $REPOSITORY_URL:$IMAGE_TAG
+
+
+deploy:
+  stage: deploy
+  tags:
+    - aws
+  script:
+    - echo "Deploying application.."
+    - echo $REPOSITORY_URL:$IMAGE_TAG
+    - TASK_DEFINITION=$(aws ecs describe-task-definition --task-definition "$TASK_DEFINITION_NAME" --region "${AWS_DEFAULT_REGION}")
+    - NEW_CONTAINER_DEFINTIION=$(echo $TASK_DEFINITION | jq --arg IMAGE "$REPOSITORY_URL:$IMAGE_TAG" '.taskDefinition.containerDefinitions[0].image = $IMAGE | .taskDefinition.containerDefinitions[0]')
+    - echo "Registering new container definition..."
+    - aws ecs register-task-definition --region "${AWS_DEFAULT_REGION}" --requires-compatibilities "FARGATE" --family "${TASK_DEFINITION_NAME}" --container-definitions "${NEW_CONTAINER_DEFINTIION}" --cpu 1024 --memory 2048 --network-mode awsvpc --execution-role-arn arn:aws:iam::153658864904:role/ecsTaskExecutionRole
+    - echo "Updating the service..."
+    - aws ecs update-service --region "${AWS_DEFAULT_REGION}" --cluster "${CLUSTER_NAME}" --service "${SERVICE_NAME}"  --task-definition "${TASK_DEFINITION_NAME}"
+    - echo "Application successfully deployed."

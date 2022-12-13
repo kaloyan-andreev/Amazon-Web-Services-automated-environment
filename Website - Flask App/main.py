@@ -1,19 +1,8 @@
-from flask import Flask, render_template, request
 from website import create_app
 
+# Create the app instance by calling create_app() method
 app = create_app()
 
-# @app.route("/")
-# def index():
-#     return render_template("index.html")
-#
-# @app.route("/about")
-# def login():
-#     return render_template("login.html")
-#
-# @app.route("/profile")
-# def profile():
-#     return render_template("profile.html")
-
 if __name__ == "__main__":
+    # Run app with debugger and on every ip address
     app.run(debug=True, host='0.0.0.0')

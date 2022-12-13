@@ -13,10 +13,10 @@ variable "instance_class" {
     default = "db.t3.medium"
 }
 variable "name"  {
-    default = "mydb"
+    default = "OnlyFlightsDB"
 }       
 variable "username" {
-    default = "user1"
+    default = "Admin"
 }  
 variable "password" {
     default = "password"
