@@ -18,7 +18,7 @@ def create_app():
 
     # establish connection with the database instance
     # app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://user1:password@only-flights-database.cr78vmvzrhy0.eu-central-1.rds.amazonaws.com:3306/mydb'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://Admin:<9RO+vnr2S@onlyflights-database.cr78vmvzrhy0.eu-central-1.rds.amazonaws.com:3306/OnlyFlightsDB'
     db.init_app(app)
 
     # Import auth and views
@@ -81,17 +81,10 @@ def create_app():
                 # Check if airport has IATA code
                 if i.get('iata_code') is not None:
                     # If it does check if airport is already in database
-                    if not Airports.query.filter_by(iata_code=i.
-                                                    get('iata_code')).first():
-                        # If it isn't create new airport
-                        # instance and add it to the database
-                        new_airport = Airports(iata_code=i.get('iata_code'),
-                                               icao_code=i.get('icao_code'),
-                                               name=i.get('name'),
-                                               latitude=i.get('lat'),
-                                               longitude=i.get('lng'),
-                                               country_code=i.
-                                               get('country_code'))
+                    if not Airports.query.filter_by(iata_code=i.get('iata_code')).first():
+                        # If it isn't create new airport instance and add it to the database
+                        new_airport = Airports(iata_code=i.get('iata_code'), icao_code=i.get('icao_code'), name=i.get('name'),
+                                               latitude=i.get('lat'), longitude=i.get('lng'), country_code=i.get('country_code'))
                         db.session.add(new_airport)
                         db.session.commit()
         else:

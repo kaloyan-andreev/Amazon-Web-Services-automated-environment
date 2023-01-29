@@ -53,7 +53,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 
       <!-- Tabs -->
       <form method="POST" autocomplete="off" id="Flight" class="my-container color-white padding-16 myLink">
-        <h3>Travel the world with OnlyFlights!</h3>
+        <h3>Travel the world with us</h3>
         <div class="row-padding" style="margin:0 -16px;">
           <div class="half-w">
 {#            <label>From</label>#}
@@ -90,6 +90,9 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
                   <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>{{ flight.check_in }} -
                       {{ flight.take_off }}</h6>
                   <p>Plane: {{ flight.plane.producer }} {{ flight.plane.model }}; Duration: {{ flight.duration }}</p>
+                  <button type="button" class="close" onClick="addFlight({{ flight.id }}, {{ user.id }})">
+                    <span aria-hidden="true">Book</span>
+                  </button>
                   <hr>
               </div>
 
@@ -277,6 +280,14 @@ var a = {{ arr|tojson }}
 autocomplete(document.getElementById("myInput"), a);
 autocomplete(document.getElementById("myInput2"), a);
 
+function addFlight(flightID, userID) {
+  fetch("/add-flight", {
+    method: "POST",
+    body: JSON.stringify({ flightID: flightID, userID: userID }),
+  }).then((_res) => {
+    window.location.href = "/profile";
+  });
+}
 
 </script>
 

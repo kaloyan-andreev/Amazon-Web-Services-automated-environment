@@ -24,13 +24,8 @@ class Airports(db.Model):
     country_code = db.Column(db.String(250))
 
     # Define relations
-    flight_origin = db.relationship('Flights',
-                                    foreign_keys='Flights.origin',
-                                    backref='flight_orig',
-                                    lazy='dynamic')
-    flight_destination = db.relationship('Flights',
-                                         foreign_keys='Flights.destination',
-                                         backref='flight_dest',
+    flight_origin = db.relationship('Flights', foreign_keys='Flights.origin', backref='flight_orig', lazy='dynamic')
+    flight_destination = db.relationship('Flights', foreign_keys='Flights.destination', backref='flight_dest',
                                          lazy='dynamic')
 
 
@@ -52,12 +47,9 @@ class Aircrafts(db.Model):
 class Flights(db.Model):
     # Define columns
     id = db.Column(db.Integer, primary_key=True)
-    origin = db.Column(db.String(250),
-                       db.ForeignKey('airports.iata_code'))
-    destination = db.Column(db.String(250),
-                            db.ForeignKey('airports.iata_code'))
-    plane_id = db.Column(db.Integer,
-                         db.ForeignKey('aircrafts.id'))
+    origin = db.Column(db.String(250), db.ForeignKey('airports.iata_code'))
+    destination = db.Column(db.String(250), db.ForeignKey('airports.iata_code'))
+    plane_id = db.Column(db.Integer, db.ForeignKey('aircrafts.id'))
     check_in = db.Column(db.Date)
     take_off = db.Column(db.Time(timezone=True))
     terminal = db.Column(db.Integer)
@@ -85,7 +77,6 @@ class Tickets(db.Model):
     # Define relations
     flight = db.relationship('Flights', back_populates='tickets')
     user = db.relationship('Users', back_populates='tickets')
-
     luggage = db.relationship('Luggage', back_populates='tickets')
 
 
@@ -113,11 +104,6 @@ class Users(db.Model, UserMixin):
     email = db.Column(db.String(250), unique=True)
 
     # Define relations
-    logs_empl = db.relationship('SupportLogs',
-                                foreign_keys='SupportLogs.employee_id',
-                                backref='employee', lazy='dynamic')
-    logs_cli = db.relationship('SupportLogs',
-                               foreign_keys='SupportLogs.user_id',
-                               backref='user', lazy='dynamic')
-    tickets = db.relationship('Tickets',
-                              back_populates='user')
+    logs_empl = db.relationship('SupportLogs', foreign_keys='SupportLogs.employee_id', backref='employee', lazy='dynamic')
+    logs_cli = db.relationship('SupportLogs', foreign_keys='SupportLogs.user_id', backref='user', lazy='dynamic')
+    tickets = db.relationship('Tickets', back_populates='user')

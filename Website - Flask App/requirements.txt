@@ -4,3 +4,4 @@ flask-login
 requests
 sqlalchemy
 mysqlclient
+jsonify

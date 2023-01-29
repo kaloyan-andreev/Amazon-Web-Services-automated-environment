@@ -5,7 +5,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 from flask_login import login_user, login_required, logout_user
 
-
 # Initialize auth blueprint
 auth = Blueprint('auth', __name__)
 
@@ -24,10 +23,10 @@ def login():
         user = Users.query.filter_by(email=email).first()
         # Check if user actually exists
         if user:
-            # Check if the hashed password matches the hash in the database
+            # If it does check if the hashed password matches the hash in the database
             if check_password_hash(user.password, password):
                 # flash('logged in', category='success')
-                # call login_user() which saves the user in the session
+                # If it does, call login_user() which saves the user in the session and remember it for the session
                 login_user(user, remember=True)
                 # Return a redirect to the home page
                 return redirect(url_for('views.home'))
@@ -48,6 +47,7 @@ def login():
 def signup():
     # Check if method is POST
     if request.method == 'POST':
+        # If it is get the name, email, password and password confirmation from the form
         name = request.form.get('name')
         email = request.form.get('email')
         password1 = request.form.get('password1')
@@ -81,12 +81,7 @@ def signup():
             pass
         else:
             # Else create a new user instance and commit it to the database
-            new_user = Users(username=email,
-                             password=generate_password_hash(password1,
-                                                             method='sha256'),
-                             name=name,
-                             type=0,
-                             email=email)
+            new_user = Users(username=email, password=generate_password_hash(password1, method='sha256'), name=name, type=0, email=email)
             db.session.add(new_user)
             db.session.commit()
             # flash('Account created', category='success')

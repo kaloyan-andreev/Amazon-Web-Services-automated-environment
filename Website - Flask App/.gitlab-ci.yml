@@ -1,7 +1,7 @@
 variables:
-  REPOSITORY_URL: 153658864904.dkr.ecr.eu-central-1.amazonaws.com/onlyflights
-  TASK_DEFINITION_NAME: onlyflights-dockerize-website
-  CLUSTER_NAME: OnlyFlights-Cluster
+  REPOSITORY_URL: 153658864904.dkr.ecr.eu-central-1.amazonaws.com/onlyflgihts-ecr
+  TASK_DEFINITION_NAME: onlylfights-webapp
+  CLUSTER_NAME: OnlyFlights
   SERVICE_NAME: OnlyFlights-Service
 
 
@@ -33,6 +33,7 @@ flake-test-job:
   tags:
     - aws
   script:
+    # - sudo apt -y install flake8
     - python3 -m flake8 --ignore=E501
 
 
@@ -61,7 +62,7 @@ deploy:
     - TASK_DEFINITION=$(aws ecs describe-task-definition --task-definition "$TASK_DEFINITION_NAME" --region "${AWS_DEFAULT_REGION}")
     - NEW_CONTAINER_DEFINTIION=$(echo $TASK_DEFINITION | jq --arg IMAGE "$REPOSITORY_URL:$IMAGE_TAG" '.taskDefinition.containerDefinitions[0].image = $IMAGE | .taskDefinition.containerDefinitions[0]')
     - echo "Registering new container definition..."
-    - aws ecs register-task-definition --region "${AWS_DEFAULT_REGION}" --requires-compatibilities "FARGATE" --family "${TASK_DEFINITION_NAME}" --container-definitions "${NEW_CONTAINER_DEFINTIION}" --cpu 1024 --memory 2048 --network-mode awsvpc --execution-role-arn arn:aws:iam::153658864904:role/ecsTaskExecutionRole
+    - aws ecs register-task-definition --region "${AWS_DEFAULT_REGION}" --requires-compatibilities "FARGATE" --family "${TASK_DEFINITION_NAME}" --container-definitions "${NEW_CONTAINER_DEFINTIION}" --cpu 1024 --memory 3072 --network-mode awsvpc --execution-role-arn arn:aws:iam::153658864904:role/ecsTaskExecutionRole
     - echo "Updating the service..."
     - aws ecs update-service --region "${AWS_DEFAULT_REGION}" --cluster "${CLUSTER_NAME}" --service "${SERVICE_NAME}"  --task-definition "${TASK_DEFINITION_NAME}"
     - echo "Application successfully deployed."

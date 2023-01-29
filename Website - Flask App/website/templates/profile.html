@@ -60,15 +60,15 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
         <div class="w3-container">
           <p><i class="fa fa-user fa-fw w3-margin-right w3-large w3-text-teal"></i>{{ user.name }}</p>
           <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>{{ user.email }}</p>
-          <p><i class="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal"></i>figure it out im done</p>
+{#          <p><i class="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal"></i>figure it out im done</p>#}
           <div id="Flight" class="w3-container w3-white">
             <div class="w3-row-padding" style="margin:0 -16px;">
-              <div class="w3-half">
+              <div>
                 <p><a href="/logout"><button class="my-button w3-red" style="width: 100%">Log Out</button></a></p>
               </div>
-              <div class="w3-half">
-                <p><button class="my-button w3-red" style="width: 100%">Edit Account</button></p>
-              </div>
+{#              <div class="w3-half">#}
+{#                <p><button class="my-button w3-red" style="width: 100%">Edit Account</button></p>#}
+{#              </div>#}
             </div>
           </div>
 
@@ -77,15 +77,15 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 
           <p class="w3-large"><b><i class="fa fa-lock fa-fw w3-margin-right w3-text-teal"></i>Security</b></p>
             <form method="POST">
-              <input class="w3-input w3-border" type="text" placeholder="Current Password" style="margin-top: 20px; margin-bottom: 20px;">
-              <input class="w3-input w3-border" type="text" placeholder="New Password" style="margin-top: 20px; margin-bottom: 20px;">
-              <input class="w3-input w3-border" type="text" placeholder="Repeat New Password" style="margin-top: 20px; margin-bottom: 20px;">
-              <button class="my-button w3-red" type="submit" style="width: 100%">Change Password</button>
+              <input class="w3-input w3-border" type="password" placeholder="Current Password" style="margin-top: 20px; margin-bottom: 20px;" id="currPass">
+              <input class="w3-input w3-border" type="password" placeholder="New Password" style="margin-top: 20px; margin-bottom: 20px;" id="newPass">
+              <input class="w3-input w3-border" type="password" placeholder="Repeat New Password" style="margin-top: 20px; margin-bottom: 20px;" id="secPass">
+              <button class="my-button w3-red" type="submit" onclick="changePass()" style="width: 100%">Change Password</button>
             </form>
           <hr>
 
           <p class="w3-large w3-text-theme"><b><i class="fa fa-shield fa-fw w3-margin-right w3-text-teal"></i>Privacy</b></p>
-          Funky ass settings that make u think u choose what happens with ur data
+          We value Your privacy and all information is stored only with functionality purposes and is strictly confidential and fully encrypted.
 <!--          <p>English</p>-->
 <!--          <div class="w3-light-grey w3-round-xlarge">-->
 <!--            <div class="w3-round-xlarge w3-teal" style="height:24px;width:100%"></div>-->
@@ -131,7 +131,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 
       <div class="w3-container w3-card w3-white w3-margin-bottom">
         <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-clock-o fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Upcoming Flights</h2>
-          {% if tickets %}
+          {% if tickets == None %}
               <hr>
               <p>You have no upcoming flights</p>
               <hr>
@@ -139,14 +139,21 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 
           {% for ticket in tickets %}
 
+              {% if ticket.flight.check_in >= today %}
+
               <div class="w3-container">
                   <h5 class="w3-opacity"><b>{{ ticket.flight.flight_orig.name }} ({{ ticket.flight.origin }}) <i class="fa fa-long-arrow-right fa-fw"></i>
                       {{ ticket.flight.flight_dest.name }} ({{ ticket.flight.destination }})</b></h5>
                   <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>{{ ticket.flight.check_in }} -
                       {{ ticket.flight.take_off }}</h6>
                   <p>Plane: {{ ticket.flight.plane.producer }} {{ ticket.flight.plane.model }}; Duration: {{ ticket.flight.duration }}</p>
+                  <button type="button" class="close" onClick="deleteTicket({{ ticket.id }}, {{ user.id }})">
+                    <span aria-hidden="true">Cancel booking</span>
+                  </button>
                   <hr>
               </div>
+
+              {% endif %}
 
           {% endfor %}
 
@@ -175,7 +182,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 
       <div class="w3-container w3-card w3-white w3-margin-bottom">
         <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-calendar-check-o fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Previous Flights</h2>
-          {% if tickets %}
+          {% if tickets == None %}
               <hr>
               <p>You haven't flown with us for now</p>
               <hr>
@@ -183,7 +190,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
 
           {% for ticket in tickets %}
 
-{#              {% if ticket.flight.check_in <  %}#}
+              {% if ticket.flight.check_in < today %}
 
               <div class="w3-container">
                   <h5 class="w3-opacity"><b>{{ ticket.flight.flight_orig.name }} ({{ ticket.flight.origin }}) <i class="fa fa-long-arrow-right fa-fw"></i>
@@ -193,6 +200,8 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
                   <p>Plane: {{ ticket.flight.plane.producer }} {{ ticket.flight.plane.model }}; Duration: {{ ticket.flight.duration }}</p>
                   <hr>
               </div>
+
+              {% endif %}
 
           {% endfor %}
 
@@ -264,6 +273,29 @@ function closeChat() {
       openDropdowns.classList.remove('show');
     }
   }
+}
+
+function deleteTicket(ticketID, userID) {
+  fetch("/delete-ticket", {
+    method: "POST",
+    body: JSON.stringify({ ticketID: ticketID, userID: userID }),
+  }).then((_res) => {
+    window.location.href = "/profile";
+  });
+}
+
+function changePass(){
+
+    currPass = document.getElementById("currPass").value;
+    newPass = document.getElementById("newPass").value;
+    secPass = document.getElementById("secPass").value;
+
+    fetch("/change-pass", {
+        method: "POST",
+        body: JSON.stringify({ currPass: currPass, newPass: newPass, secPass: secPass}),
+    }).then((_res) => {
+        window.location.href = "/profile";
+    });
 }
 </script>
 
