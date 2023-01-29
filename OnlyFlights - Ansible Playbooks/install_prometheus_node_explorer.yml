@@ -1,0 +1,8 @@
+---
+ - name: Install Prometheus Node Explorer
+   hosts: Servers
+   become: yes
+   tasks:
+    - name: Installation
+      shell: |
+        apt -y install prometheus-node-exporter

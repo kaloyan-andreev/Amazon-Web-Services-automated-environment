@@ -1,0 +1,13 @@
+---
+ - name: install aws cli
+   hosts: Servers
+   become: yes
+   tasks:
+    - name: Download needed packeges
+      shell: curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+
+    - name: Unzip folder
+      shell: unzip awscliv2.zips
+
+    - name: Install
+      shell: sudo ./aws/install

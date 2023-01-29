@@ -1,0 +1,24 @@
+---
+ - name: Setup GitLab Runner
+   hosts: GitLabRunner
+   become: yes
+   tasks:
+    - name: Download the binary for your system
+      shell: |
+        sudo curl -L --output /usr/local/bin/gitlab-runner https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64
+
+    - name: Give it permission to execute
+      shell: |
+        sudo chmod +x /usr/local/bin/gitlab-runner
+
+    - name: Create a GitLab Runner user
+      shell: |
+        sudo useradd --comment 'GitLab Runner' --create-home gitlab-runner --shell /bin/bash
+
+    - name: Install and run as a service
+      shell: |
+        sudo gitlab-runner install --user=gitlab-runner --working-directory=/home/gitlab-runner
+
+    - name: Restart
+      shell: |
+        sudo gitlab-runner start

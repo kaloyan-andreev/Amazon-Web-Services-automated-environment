@@ -1,0 +1,12 @@
+---
+ - name: Install MySQL Server
+   hosts: localhost
+   become: yes
+   tasks:
+    - name: Install MySQL
+      shell: |
+        apt-get -y install mysql-server
+
+    - name: Start the MySQL service
+      shell: |
+        systemctl start mysql.service

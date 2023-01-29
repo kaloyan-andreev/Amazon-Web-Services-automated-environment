@@ -1,0 +1,7 @@
+---
+ - name: connect to hosts
+   hosts: Servers
+   become: yes
+   tasks:
+    - name: Ensure hosts are reached
+      ping:
