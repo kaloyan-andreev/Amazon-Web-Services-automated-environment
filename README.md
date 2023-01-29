@@ -49,5 +49,5 @@ For help, please contact our developer team via one of the emails below:
  - f.marco@student.fontys.nl
 
 ## Project status
-STILL IN DEVELOPMENT PROCESS 
+DONE
 
